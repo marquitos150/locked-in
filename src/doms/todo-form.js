@@ -12,8 +12,7 @@ export function TodoForm() {
     const dialogHeaderText = document.createElement("h2");
 
     dialogBox.setAttribute("id", "popup-form");
-    dialogBox.setAttribute("closedby", "closerequest");
-    dialogBox.setAttribute("open", "");
+    dialogBox.setAttribute("closedby", "none");
     dialogHeader.classList.add("dialog-header");
     dialogHeaderText.textContent = "Create Todo";
     dialogHeader.appendChild(dialogHeaderText);

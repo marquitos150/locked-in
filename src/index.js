@@ -6,7 +6,16 @@ import {TodoForm} from "./doms/todo-form.js";
 
 const body = document.querySelector("body");
 const createTodoBtn = document.querySelector(".todo-btn");
+const todoForm = TodoForm();
+
+body.appendChild(todoForm);
 
 createTodoBtn.addEventListener('click', () => {
-    body.appendChild(TodoForm());
+    todoForm.showModal();
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        todoForm.close();
+    }
 });
