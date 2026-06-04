@@ -1,4 +1,4 @@
-export function TodoForm() {
+export function createTodoForm() {
     // helper function that adds asterisk to label, indicating required field
     const addAsterisk = () => {
         const span = document.createElement("span");
@@ -9,12 +9,12 @@ export function TodoForm() {
 
     const dialogBox = document.createElement("dialog");
     const dialogHeader = document.createElement("div");
-    const dialogHeaderText = document.createElement("h2");
+    const dialogHeaderText = document.createElement("h1");
 
     dialogBox.setAttribute("id", "popup-form");
     dialogBox.setAttribute("closedby", "none");
     dialogHeader.classList.add("dialog-header");
-    dialogHeaderText.textContent = "Create Todo";
+    dialogHeaderText.textContent = "Add Task";
     dialogHeader.appendChild(dialogHeaderText);
     dialogBox.appendChild(dialogHeader);
 
@@ -92,25 +92,6 @@ export function TodoForm() {
     prioritySelect.appendChild(mediumOption);
     prioritySelect.appendChild(lowOption);
     form.appendChild(prioritySelect);
-
-    // notes
-    const notesLabel = document.createElement("label");
-    notesLabel.setAttribute("for", "notes");
-    notesLabel.textContent = "Notes:";
-    form.appendChild(notesLabel);
-
-    const notesTextArea = document.createElement("textArea");
-    notesTextArea.setAttribute("id", "notes");
-    notesTextArea.setAttribute("name", "notes");
-    notesTextArea.setAttribute("rows", "5");
-    form.appendChild(notesTextArea);
-
-    // checklist
-    const subTaskBtn = document.createElement("button");
-    subTaskBtn.setAttribute("type", "button");
-    subTaskBtn.classList.add("checklist");
-    subTaskBtn.textContent = "+ Add SubTask";
-    form.appendChild(subTaskBtn);
 
     // submit
     const submitBtn = document.createElement("button");

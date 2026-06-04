@@ -1,10 +1,10 @@
 export class Project {
-    constructor(id, title, todolist) {
-        this.id = id;
+    constructor(title) {
+        this.id = crypto.randomUUID();
         this.title = title;
-        this.todolist = todolist;
+        this.todoList = [];
     }
 
-    addTodo(todo) { this.todolist.push(todo); }
-    removeTodo(todo) { this.todolist = this.todolist.filter(task => task.id !== todo.id); }
+    addTodo(todo) { this.todoList.push(todo); }
+    removeTodo(todo) { this.todoList = this.todoList.filter(task => task.id !== todo.id); }
 }

@@ -1,16 +1,16 @@
 export class Task {
-    constructor(id, title, description, dueDate, priority, notes, checklist) {
-        this.id = id;
+    constructor(title, description, dueDate, priority) {
+        this.id = crypto.randomUUID();
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.notes = notes;
-        this.checklist = checklist;
+        this.notes = "";
+        this.checkList = [];
         this.isCompleted = false;
     }
     
     toggleCompletionStatus() { this.isCompleted = !this.isCompleted; }
-    addSubTask(subtask) { this.checklist.push(subtask); }
-    removeSubTask(subtask) { this.checklist = this.checklist.filter(task => task.id !== subtask.id); }
+    addSubTask(subtask) { this.checkList.push(subtask); }
+    removeSubTask(subtask) { this.checkList = this.checkList.filter(task => task.id !== subtask.id); }
 }
