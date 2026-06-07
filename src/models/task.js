@@ -7,10 +7,8 @@ export class Task {
         this.priority = priority;
         this.notes = "";
         this.checkList = [];
-        this.isCompleted = false;
     }
     
-    toggleCompletionStatus() { this.isCompleted = !this.isCompleted; }
     addSubTask(subtask) { this.checkList.push(subtask); }
     removeSubTask(subtask) { this.checkList = this.checkList.filter(task => task.id !== subtask.id); }
 }

@@ -18,7 +18,7 @@ projectList.push(dummyProject);
 
 const body = document.querySelector("body");
 const createTodoBtn = document.querySelector(".todo-btn");
-const todoList = document.querySelector("ul");
+const todoList = document.querySelector(".todo-list");
 
 const todoForm = createTodoForm();
 body.appendChild(todoForm);
@@ -34,10 +34,12 @@ function addTask() {
     return task;
 }
 
+// Shows the form to create the todo item
 createTodoBtn.addEventListener('click', () => {
     todoForm.showModal();
 });
 
+// Adds the new todo item to the todo list after submitting todo form
 todoForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const task = addTask();
