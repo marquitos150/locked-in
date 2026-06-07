@@ -7,18 +7,20 @@ import {Task} from "./models/task.js";
 import {SubTask} from "./models/subtask.js";
 
 // functions
-import {showTodoItem} from "./doms/todo-item.js"
+import {showTodoList} from "./doms/todo-list.js"
 
 const projectList = []
 
-// TODO: change this later when adding more projects, for now use dummy project
-const dummyProject = new Project("Dummy Project");
-projectList.push(dummyProject);
+// Inbox will be the 'default' project
+const inbox = new Project("Inbox");
+projectList.push(inbox);
 
-const body = document.querySelector("body");
 const createTodoBtn = document.querySelector(".todo-btn");
 const todoList = document.querySelector(".todo-list");
 const todoForm = document.querySelector("#popup-form");
+
+let selectedProject = inbox
+showTodoList(selectedProject); // should be empty initially
 
 function addTask() {
     const title = document.getElementById('title').value;
@@ -27,11 +29,11 @@ function addTask() {
     const priority = document.getElementById('priority').value;
 
     const task = new Task(title, description, dueDate, priority)
-    dummyProject.addTodo(task);
+    selectedProject.addTodo(task);
     return task;
 }
 
-// Shows the form to create the todo item
+// Shows the form to create or edit the todo item
 createTodoBtn.addEventListener('click', () => {
     todoForm.showModal();
 });
@@ -40,7 +42,7 @@ createTodoBtn.addEventListener('click', () => {
 todoForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const task = addTask();
-    const todoItem = showTodoItem(task);
-    todoList.appendChild(todoItem);
+    showTodoList(selectedProject);
+    e.target.reset();
     todoForm.close();
 });

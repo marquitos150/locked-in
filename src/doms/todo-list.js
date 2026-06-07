@@ -90,4 +90,20 @@ export function showTodoList(project) {
         todoWrapper.appendChild(todoOptions);
         return todoWrapper;
     }
+
+    const projectName = document.querySelector(".project-name");
+    const todos = document.querySelector(".todos");
+
+    // Clear project name and todos before rendering todo list
+    projectName.innerHTML = '';
+    todos.innerHTML = '';
+
+    // Display project name
+    projectName.textContent = project.title;
+
+    // Display todos for project
+    project.todoList.forEach((todoItem) => {
+        const todo = showTodoItem(todoItem);
+        todos.appendChild(todo);
+    });
 }
