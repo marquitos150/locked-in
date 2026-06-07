@@ -7,7 +7,6 @@ import {Task} from "./models/task.js";
 import {SubTask} from "./models/subtask.js";
 
 // functions
-import {createTodoForm} from "./doms/todo-form.js";
 import {showTodoItem} from "./doms/todo-item.js"
 
 const projectList = []
@@ -19,9 +18,7 @@ projectList.push(dummyProject);
 const body = document.querySelector("body");
 const createTodoBtn = document.querySelector(".todo-btn");
 const todoList = document.querySelector(".todo-list");
-
-const todoForm = createTodoForm();
-body.appendChild(todoForm);
+const todoForm = document.querySelector("#popup-form");
 
 function addTask() {
     const title = document.getElementById('title').value;

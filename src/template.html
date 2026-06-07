@@ -30,16 +30,58 @@
             <h2>Projects</h2>
             <button><h2>+</h2></button>
         </div>
-        <ul class="project-list"></ul>
+        <ul class="project-list">
+            <!-- Projects will be dynamically added here -->
+        </ul>
     </aside>
     <main>
+        <div class="todo-list">
+            <div class="todo-list-header">
+                <h2 class="project-name">
+                    <!-- Selected project name -->
+                </h2>
+                <div class="project-options">
+                    <button class="todo-btn">+ Add Task</button>
+                    <button class="filters">Sort by: </button>
+                </div>
+            </div>
+            <ul class="todos">
+                <!-- Todos will be dynamically added here based on selected project -->
+            </ul>
+        </div>
+        <!--
         <h1 class="project-name">Inbox</h1>
         <ul class="todo-list"></ul>
-        <button class="todo-btn">+ Add Task</button>
+        -->
     </main>
+    <dialog id="popup-form" closedby="none">
+        <div class="dialog-header">
+            <h1>Add Task</h1>
+        </div>
+        <form method="dialog">
+            <label for="title">
+                Title:
+                <span class="required">*</span>
+            </label>
+            <input type="text" id="title" name="title" required>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description">
+            <label for="due-date">
+                Due Date:
+                <span class="required">*</span>
+            </label>
+            <input type="datetime-local" id="due-date" name="due-date" min="2026-06-01T08:30" required>
+            <label for="priority">Select Priority:</label>
+            <select id="priority" name="priority">
+                <option value="high" class="high">High</option>
+                <option value="medium" selected class="medium">Medium</option>
+                <option value="low" class="low">Low</option>
+            </select>
+            <button type="submit">Create</button>
+        </form>
+    </dialog>
 </body>
 </html>
-
 <!-- Credits to add:
  - https://www.svgrepo.com/svg/506221/inbox
  - https://www.svgrepo.com/svg/374486/today
