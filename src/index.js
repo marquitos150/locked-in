@@ -33,6 +33,27 @@ function addTask() {
     return task;
 }
 
+function handleTodoOptions(e) {
+    const option = e.target.closest('[data-action]');
+    if (!option) return;
+
+    const action = option.dataset.action;
+    const id = option.dataset.id;
+
+    // Edit todo
+
+    // Remove todo
+    if (action == 'remove-todo') {
+        const index = selectedProject.todoList.findIndex(todo => todo.id === id);
+        if (index !== -1) {
+            selectedProject.todoList.splice(index, 1);
+            showTodoList(selectedProject);
+        }
+    }
+
+    // Expand todo to see details
+}
+
 // Shows the form to create or edit the todo item
 createTodoBtn.addEventListener('click', () => {
     todoForm.showModal();
@@ -46,3 +67,6 @@ todoForm.addEventListener('submit', (e) => {
     e.target.reset();
     todoForm.close();
 });
+
+// Handles options user may click on for the todo items
+todoList.addEventListener('click', (e) => { handleTodoOptions(e); });

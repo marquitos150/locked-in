@@ -4,6 +4,7 @@ export function showTodoList(project) {
         todoWrapper.classList.add("todo-wrapper");
         todoWrapper.dataset.id = todo.id;
         const checkBubble = document.createElement("button");
+        checkBubble.dataset.complete = todo.isCompleted ? 'true' : 'false';
         checkBubble.classList.add("check-bubble");
         const todoCard = document.createElement("div");
         todoCard.classList.add("todo-card");
@@ -55,6 +56,8 @@ export function showTodoList(project) {
         todoInfo.appendChild(primaryDetails);
 
         const accordian = document.createElement("button");
+        accordian.dataset.action = 'expand-details';
+        accordian.dataset.id = todo.id;
         accordian.classList.add("accordian");
         const accordianImage = document.createElement("div");
         accordianImage.classList.add("arrow");
@@ -69,6 +72,8 @@ export function showTodoList(project) {
 
         // todoOptions
         const editBtn = document.createElement("button");
+        editBtn.dataset.action = 'edit-todo';
+        editBtn.dataset.id = todo.id;
         editBtn.classList.add("edit");
         const editIcon = document.createElement("div");
         editIcon.classList.add("edit-icon");
@@ -76,6 +81,8 @@ export function showTodoList(project) {
         editBtn.appendChild(editIcon);
 
         const trashBtn = document.createElement("button");
+        trashBtn.dataset.action = 'remove-todo';
+        trashBtn.dataset.id = todo.id;
         trashBtn.classList.add("delete");
         const trashIcon = document.createElement("div");
         trashIcon.classList.add("trash");
