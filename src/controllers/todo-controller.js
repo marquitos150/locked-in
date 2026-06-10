@@ -1,5 +1,9 @@
 import {Todo} from "../models/todo.js";
 
+function toggleCompletionStatus(todo) {
+    todo.toggleCompletion();
+}
+
 function getTask(project, id) {
     return project.getTodo(id);
 }
@@ -21,7 +25,8 @@ function removeTask(project, id) {
     project.removeTodo(id);
 }
 
-export { 
+export {
+    toggleCompletionStatus,
     getTask,
     createTask, 
     updateTask, 

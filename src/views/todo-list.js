@@ -4,7 +4,9 @@ function showTodoItem(todo) {
     todoWrapper.classList.add("todo-wrapper");
     todoWrapper.dataset.id = todo.id;
     const checkBubble = document.createElement("button");
-    checkBubble.dataset.complete = todo.isCompleted ? "true" : "false";
+    checkBubble.dataset.action = "toggle-completion-status";
+    checkBubble.dataset.complete = todo.isComplete ? "true" : "false";
+    checkBubble.dataset.id = todo.id;
     checkBubble.classList.add("check-bubble");
     const todoCard = document.createElement("div");
     todoCard.classList.add("todo-card");

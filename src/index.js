@@ -11,7 +11,7 @@ import { showTodoList } from "./views/todo-list.js";
 import { enableCreateMode, enableEditMode, getFormData, fillForm } from "./views/todo-form.js";
 
 // controllers
-import { getTask, createTask, updateTask, removeTask } from "./controllers/todo-controller.js";
+import { toggleCompletionStatus, getTask, createTask, updateTask, removeTask } from "./controllers/todo-controller.js";
 
 // states
 const projectList = []
@@ -36,6 +36,13 @@ function handleTodoOptions(e) {
     const action = option.dataset.action;
     const id = option.dataset.id;
 
+    // Toggle completion status of todo
+    if (action === "toggle-completion-status") {
+        const todo = getTask(selectedProject, id);
+        if (todo) toggleCompletionStatus(todo);
+        showTodoList(selectedProject);
+    }
+
     // Edit todo (should show form with edit details)
     if (action === "edit-todo") {
         const todo = getTask(selectedProject, id);
@@ -56,12 +63,10 @@ function handleTodoOptions(e) {
         showTodoList(selectedProject);
     }
 
-    // TODO: Expand todo to see details
-    /*
-    if (action === "expand-details") {
+    // Expand todo to see details
+    //if (action === "expand-details") {
 
-    }
-    */
+    //}
 }
 
 // Shows the form to create the todo item
