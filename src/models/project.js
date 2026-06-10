@@ -5,6 +5,7 @@ export class Project {
         this.todoList = [];
     }
 
+    getTodo(id) { return this.todoList.find(todo => todo.id === id); }
     addTodo(todo) { this.todoList.push(todo); }
-    removeTodo(todo) { this.todoList = this.todoList.filter(task => task.id !== todo.id); }
+    removeTodo(id) { this.todoList = this.todoList.filter(todo => todo.id !== id); }
 }

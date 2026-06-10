@@ -1,4 +1,4 @@
-export class Task {
+export class Todo {
     constructor(title, description, dueDate, priority) {
         this.id = crypto.randomUUID();
         this.title = title;
@@ -10,7 +10,8 @@ export class Task {
         this.isComplete = false;
     }
     
-    toggleCompletion() { this.isComplete = !this.isComplete; } 
+    toggleCompletion() { this.isComplete = !this.isComplete; }
+    updateTodo(data) { Object.assign(this, data); }
     addSubTask(subtask) { this.checkList.push(subtask); }
     removeSubTask(subtask) { this.checkList = this.checkList.filter(task => task.id !== subtask.id); }
 }

@@ -1,37 +1,33 @@
 "user strict";
 import "./styles.css";
 
-// classes
-import {Project} from "./models/project.js";
-import {Task} from "./models/task.js";
-import {SubTask} from "./models/subtask.js";
+// models
+import { Project } from "./models/project.js";
+import { Todo } from "./models/todo.js";
+import { SubTask } from "./models/subtask.js";
 
-// functions
-import {showTodoList} from "./doms/todo-list.js"
+// views
+import { showTodoList } from "./views/todo-list.js";
+import { enableCreateMode, enableEditMode, getFormData, fillForm } from "./views/todo-form.js";
 
+// controllers
+import { getTask, createTask, updateTask, removeTask } from "./controllers/todo-controller.js";
+
+// states
 const projectList = []
+let todoToEdit = null
+let selectedProject = null
 
 // Inbox will be the 'default' project
 const inbox = new Project("Inbox");
 projectList.push(inbox);
 
+selectedProject = inbox
+showTodoList(selectedProject); // should be empty initially
+
 const createTodoBtn = document.querySelector(".todo-btn");
 const todoList = document.querySelector(".todo-list");
 const todoForm = document.querySelector("#popup-form");
-
-let selectedProject = inbox
-showTodoList(selectedProject); // should be empty initially
-
-function addTask() {
-    const title = document.getElementById('title').value;
-    const description = document.getElementById('description').value;
-    const dueDate = document.getElementById('due-date').value;
-    const priority = document.getElementById('priority').value;
-
-    const task = new Task(title, description, dueDate, priority)
-    selectedProject.addTodo(task);
-    return task;
-}
 
 function handleTodoOptions(e) {
     const option = e.target.closest('[data-action]');
@@ -40,33 +36,56 @@ function handleTodoOptions(e) {
     const action = option.dataset.action;
     const id = option.dataset.id;
 
-    // Edit todo
-
-    // Remove todo
-    if (action == 'remove-todo') {
-        const index = selectedProject.todoList.findIndex(todo => todo.id === id);
-        if (index !== -1) {
-            selectedProject.todoList.splice(index, 1);
-            showTodoList(selectedProject);
+    // Edit todo (should show form with edit details)
+    if (action === "edit-todo") {
+        const todo = getTask(selectedProject, id);
+        if (todo) {
+            // enable edit mode
+            enableEditMode();
+            // fill form elements with todo item's values
+            fillForm(todo);
+            // make todo the one to edit
+            todoToEdit = todo
+            todoForm.showModal();
         }
     }
 
-    // Expand todo to see details
+    // Remove todo
+    if (action === "remove-todo") {
+        removeTask(selectedProject, id);
+        showTodoList(selectedProject);
+    }
+
+    // TODO: Expand todo to see details
+    /*
+    if (action === "expand-details") {
+
+    }
+    */
 }
 
-// Shows the form to create or edit the todo item
+// Shows the form to create the todo item
 createTodoBtn.addEventListener('click', () => {
+    enableCreateMode();
     todoForm.showModal();
 });
 
-// Adds the new todo item to the todo list after submitting todo form
+// Creates a new todo item or edits it from the todo list after submitting todo form
 todoForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const task = addTask();
+
+    if (todoToEdit) {
+        updateTask(todoToEdit, getFormData());
+        // reassign todoToEdit to null for next possible creation of task
+        todoToEdit = null;
+    } else {
+        createTask(selectedProject, getFormData());
+    }
+
     showTodoList(selectedProject);
     e.target.reset();
     todoForm.close();
 });
 
 // Handles options user may click on for the todo items
-todoList.addEventListener('click', (e) => { handleTodoOptions(e); });
+todoList.addEventListener('click', handleTodoOptions);
