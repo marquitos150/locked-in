@@ -8,9 +8,11 @@ export class Todo {
         this.notes = "";
         this.checkList = [];
         this.isComplete = false;
+        this.revealDetails = false;
     }
     
     toggleCompletion() { this.isComplete = !this.isComplete; }
+    toggleReveal() { this.revealDetails = !this.revealDetails; }
     updateTodo(data) { Object.assign(this, data); }
     addSubTask(subtask) { this.checkList.push(subtask); }
     removeSubTask(subtask) { this.checkList = this.checkList.filter(task => task.id !== subtask.id); }

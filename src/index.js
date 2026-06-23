@@ -1,4 +1,4 @@
-"user strict";
+"use strict";
 import "./styles.css";
 
 // models
@@ -7,11 +7,11 @@ import { Todo } from "./models/todo.js";
 import { SubTask } from "./models/subtask.js";
 
 // views
-import { showTodoList } from "./views/todo-list.js";
+import { updateTodoCompletion, revealTodoDetails, showTodoList } from "./views/todo-list.js";
 import { enableCreateMode, enableEditMode, getFormData, fillForm } from "./views/todo-form.js";
 
 // controllers
-import { toggleCompletionStatus, getTask, createTask, updateTask, removeTask } from "./controllers/todo-controller.js";
+import { toggleCompletionStatus, toggleRevealDetails, getTask, createTask, updateTask, removeTask } from "./controllers/todo-controller.js";
 
 // states
 const projectList = []
@@ -40,7 +40,7 @@ function handleTodoOptions(e) {
     if (action === "toggle-completion-status") {
         const todo = getTask(selectedProject, id);
         if (todo) toggleCompletionStatus(todo);
-        showTodoList(selectedProject);
+        updateTodoCompletion(todo);
     }
 
     // Edit todo (should show form with edit details)
@@ -64,9 +64,11 @@ function handleTodoOptions(e) {
     }
 
     // Expand todo to see details
-    //if (action === "expand-details") {
-
-    //}
+    if (action === "expand-details") {
+        const todo = getTask(selectedProject, id);
+        if (todo) toggleRevealDetails(todo);
+        revealTodoDetails(todo);
+    }
 }
 
 // Shows the form to create the todo item

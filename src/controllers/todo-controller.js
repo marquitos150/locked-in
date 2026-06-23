@@ -4,6 +4,10 @@ function toggleCompletionStatus(todo) {
     todo.toggleCompletion();
 }
 
+function toggleRevealDetails(todo) {
+    todo.toggleReveal();
+}
+
 function getTask(project, id) {
     return project.getTodo(id);
 }
@@ -27,6 +31,7 @@ function removeTask(project, id) {
 
 export {
     toggleCompletionStatus,
+    toggleRevealDetails,
     getTask,
     createTask, 
     updateTask, 

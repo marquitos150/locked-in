@@ -5,9 +5,9 @@ function showTodoItem(todo) {
     todoWrapper.dataset.id = todo.id;
     const checkBubble = document.createElement("button");
     checkBubble.dataset.action = "toggle-completion-status";
-    checkBubble.dataset.complete = todo.isComplete ? "true" : "false";
     checkBubble.dataset.id = todo.id;
     checkBubble.classList.add("check-bubble");
+    if (todo.isComplete) checkBubble.classList.add("completed");
     const todoCard = document.createElement("div");
     todoCard.classList.add("todo-card");
     const todoOptions = document.createElement("div");
@@ -24,7 +24,9 @@ function showTodoItem(todo) {
     todoMain.classList.add("todo-main");
     const todoDetails = document.createElement("div");
     todoDetails.classList.add("todo-details");
+    if (todo.revealDetails) todoDetails.classList.add("open");
 
+    // todoMain
     const todoInfo = document.createElement("div");
     todoInfo.classList.add("todo-info");
 
@@ -70,6 +72,77 @@ function showTodoItem(todo) {
     todoMain.appendChild(accordian);
     
     todoCard.appendChild(todoMain);
+
+    // todoDetails
+    const todoDetailsWrapper = document.createElement("div");
+    todoDetailsWrapper.classList.add("todo-details-wrapper");
+
+    const todoDetailsHeader = document.createElement("div");
+    todoDetailsHeader.classList.add("todo-details-header");
+    const description = document.createElement("h3");
+    description.textContent = "Description:";
+    const descriptionText = document.createElement("h3");
+    descriptionText.textContent = todo.description;
+    todoDetailsHeader.appendChild(description);
+    todoDetailsHeader.appendChild(descriptionText);
+
+    const todoDetailsBody = document.createElement("div");
+    todoDetailsBody.classList.add("todo-details-body");
+
+    const todoDetailsSectionWrapper = document.createElement("div");
+    todoDetailsSectionWrapper.classList.add("todo-details-section-wrapper");
+    const todoSubtaskListSection = document.createElement("div");
+    todoSubtaskListSection.classList.add("todo-subtask-list");
+
+    const todoDetailsSection1 = document.createElement("div");
+    todoDetailsSection1.classList.add("todo-details-section");
+    const dueDateDetails = document.createElement("h3");
+    dueDateDetails.textContent = "Due Date:";
+    const dueDateText = document.createElement("p");
+    dueDateText.textContent = todo.dueDate;
+    todoDetailsSection1.appendChild(dueDateDetails);
+    todoDetailsSection1.appendChild(dueDateText);
+    todoDetailsSectionWrapper.appendChild(todoDetailsSection1);
+
+    const todoDetailsSection2 = document.createElement("div");
+    todoDetailsSection2.classList.add("todo-details-section");
+    const priorityDetails = document.createElement("h3");
+    priorityDetails.textContent = "Priority:";
+    const priority = document.createElement("p");
+    priority.textContent = todo.priority;
+    todoDetailsSection2.appendChild(priorityDetails);
+    todoDetailsSection2.appendChild(priority);
+    todoDetailsSectionWrapper.appendChild(todoDetailsSection2);
+
+    const todoDetailsSection3 = document.createElement("div");
+    todoDetailsSection3.classList.add("todo-details-section");
+    const notesDetails = document.createElement("h3");
+    notesDetails.textContent = "Notes:";
+    const notesContainer = document.createElement("div");
+    notesContainer.dataset.id = todo.id;
+    notesContainer.setAttribute("contenteditable", "true");
+    notesContainer.classList.add("notes-container");
+    notesContainer.textContent = todo.notes;
+    todoDetailsSection3.appendChild(notesDetails);
+    todoDetailsSection3.appendChild(notesContainer);
+    todoDetailsSectionWrapper.appendChild(todoDetailsSection3);
+
+    const subtaskList = document.createElement("ul");
+    subtaskList.classList.add("subtask-list");
+    const subtaskBtn = document.createElement("button");
+    subtaskBtn.dataset.id = todo.id;
+    subtaskBtn.classList.add("subtask-btn");
+    subtaskBtn.textContent = "+ Add Subtask";
+    todoSubtaskListSection.appendChild(subtaskList);
+    todoSubtaskListSection.appendChild(subtaskBtn);
+
+    todoDetailsBody.appendChild(todoDetailsSectionWrapper);
+    todoDetailsBody.appendChild(todoSubtaskListSection);
+
+    todoDetailsWrapper.appendChild(todoDetailsHeader);
+    todoDetailsWrapper.appendChild(todoDetailsBody);
+    todoDetails.appendChild(todoDetailsWrapper);
+
     todoCard.appendChild(todoDetails);
 
     // todoOptions
@@ -98,6 +171,20 @@ function showTodoItem(todo) {
     todoWrapper.appendChild(todoCard);
     todoWrapper.appendChild(todoOptions);
     return todoWrapper;
+}
+
+// Function that updates the todo checkbox UI by changing classes
+export function updateTodoCompletion(todo) {
+    const todoElement = document.querySelector(`[data-id="${todo.id}"]`);
+    const checkBubble = todoElement.querySelector(".check-bubble");
+    checkBubble.classList.toggle("completed", todo.isComplete);
+}
+
+// Function that shows the details of the todo item
+export function revealTodoDetails(todo) {
+    const todoElement = document.querySelector(`[data-id="${todo.id}"]`);
+    const todoDetails = todoElement.querySelector(".todo-details");
+    todoDetails.classList.toggle("open", todo.revealDetails);
 }
 
 // Function that renders the todo list for the selected project
