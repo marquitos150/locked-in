@@ -173,22 +173,22 @@ function showTodoItem(todo) {
     return todoWrapper;
 }
 
-// Function that updates the todo checkbox UI by changing classes
-export function updateTodoCompletion(todo) {
+// Function that toggles check bubble
+function toggleCheckBubble(todo) {
     const todoElement = document.querySelector(`[data-id="${todo.id}"]`);
     const checkBubble = todoElement.querySelector(".check-bubble");
     checkBubble.classList.toggle("completed", todo.isComplete);
 }
 
-// Function that shows the details of the todo item
-export function revealTodoDetails(todo) {
+// Function that toggles the details of the todo item
+function toggleRevealDetails(todo) {
     const todoElement = document.querySelector(`[data-id="${todo.id}"]`);
     const todoDetails = todoElement.querySelector(".todo-details");
     todoDetails.classList.toggle("open", todo.revealDetails);
 }
 
 // Function that renders the todo list for the selected project
-export function showTodoList(project) {
+function showTodoList(project) {
     const projectName = document.querySelector(".project-name");
     const todos = document.querySelector(".todos");
 
@@ -204,4 +204,10 @@ export function showTodoList(project) {
         const todo = showTodoItem(todoItem);
         todos.appendChild(todo);
     });
+}
+
+export {
+    toggleCheckBubble,
+    toggleRevealDetails,
+    showTodoList
 }

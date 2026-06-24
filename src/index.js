@@ -1,31 +1,43 @@
 "use strict";
 import "./styles.css";
 
-// models
-import { Project } from "./models/project.js";
-import { Todo } from "./models/todo.js";
-import { SubTask } from "./models/subtask.js";
+// Project Controller
+import {
+    handleCreateProject
+} from "./controllers/project-controller.js";
 
-// views
-import { updateTodoCompletion, revealTodoDetails, showTodoList } from "./views/todo-list.js";
-import { enableCreateMode, enableEditMode, getFormData, fillForm } from "./views/todo-form.js";
+// Todo Controller
+import {
+    handleToggleCompletion, 
+    handleToggleRevealDetails, 
+    handleCreateTodo, 
+    handleGetTodo,
+    handleDeleteTodo, 
+    handleUpdateTodo
+} from "./controllers/todo-controller.js";
 
-// controllers
-import { toggleCompletionStatus, toggleRevealDetails, getTask, createTask, updateTask, removeTask } from "./controllers/todo-controller.js";
+// Subtask Controller
 
-// states
-const projectList = []
-let todoToEdit = null
-let selectedProject = null
+// Form Controller
+import {
+    handleCreateForm,
+    handleUpdateForm,
+    handleGetFormData
+} from "./controllers/form-controller.js";
 
-// Inbox will be the 'default' project
-const inbox = new Project("Inbox");
-projectList.push(inbox);
+// States
+const projectList = [];
+let todoToEdit = null;
+let selectedProject = null;
 
-selectedProject = inbox
-showTodoList(selectedProject); // should be empty initially
+// Inbox will be the 'default' selected project, cannot be deleted
+const inbox = handleCreateProject(projectList, "Inbox");
+selectedProject = inbox;
 
+// DOM
+const createProjectBtn = document.querySelector(".project-btn");
 const createTodoBtn = document.querySelector(".todo-btn");
+const sortingTodosBtn = document.querySelector(".sorting-btn");
 const todoList = document.querySelector(".todo-list");
 const todoForm = document.querySelector("#popup-form");
 
@@ -38,42 +50,33 @@ function handleTodoOptions(e) {
 
     // Toggle completion status of todo
     if (action === "toggle-completion-status") {
-        const todo = getTask(selectedProject, id);
-        if (todo) toggleCompletionStatus(todo);
-        updateTodoCompletion(todo);
+        const todo = handleGetTodo(selectedProject, id);
+        if (todo) handleToggleCompletion(todo);
     }
 
-    // Edit todo (should show form with edit details)
+    // Edit todo (Shows form in edit mode, fields should contain todo data)
     if (action === "edit-todo") {
-        const todo = getTask(selectedProject, id);
-        if (todo) {
-            // enable edit mode
-            enableEditMode();
-            // fill form elements with todo item's values
-            fillForm(todo);
-            // make todo the one to edit
-            todoToEdit = todo
-            todoForm.showModal();
-        }
+        const todo = handleGetTodo(selectedProject, id);
+        if (todo) handleUpdateForm(todo);
+        todoToEdit = todo;
+        todoForm.showModal();
     }
 
     // Remove todo
     if (action === "remove-todo") {
-        removeTask(selectedProject, id);
-        showTodoList(selectedProject);
+        handleDeleteTodo(selectedProject, id);
     }
 
     // Expand todo to see details
     if (action === "expand-details") {
-        const todo = getTask(selectedProject, id);
-        if (todo) toggleRevealDetails(todo);
-        revealTodoDetails(todo);
+        const todo = handleGetTodo(selectedProject, id);
+        if (todo) handleToggleRevealDetails(todo);
     }
 }
 
-// Shows the form to create the todo item
+// Shows form in create mode (fields should be blank)
 createTodoBtn.addEventListener('click', () => {
-    enableCreateMode();
+    handleCreateForm();
     todoForm.showModal();
 });
 
@@ -82,14 +85,12 @@ todoForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     if (todoToEdit) {
-        updateTask(todoToEdit, getFormData());
-        // reassign todoToEdit to null for next possible creation of task
+        handleUpdateTodo(todoToEdit, selectedProject, handleGetFormData());
         todoToEdit = null;
     } else {
-        createTask(selectedProject, getFormData());
+        handleCreateTodo(selectedProject, handleGetFormData());
     }
 
-    showTodoList(selectedProject);
     e.target.reset();
     todoForm.close();
 });

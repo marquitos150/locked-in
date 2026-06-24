@@ -1,39 +1,52 @@
-import {Todo} from "../models/todo.js";
+// Todo Model
+import { Todo } from "../models/todo.js";
 
-function toggleCompletionStatus(todo) {
+// Todo View
+import { 
+    toggleCheckBubble, 
+    toggleRevealDetails, 
+    showTodoList 
+} from "../views/todo-view.js";
+
+function handleToggleCompletion(todo) {
     todo.toggleCompletion();
+    toggleCheckBubble(todo);
 }
 
-function toggleRevealDetails(todo) {
+function handleToggleRevealDetails(todo) {
     todo.toggleReveal();
+    toggleRevealDetails(todo);
 }
 
-function getTask(project, id) {
-    return project.getTodo(id);
-}
-
-function createTask(project, data) {
+function handleCreateTodo(project, data) {
     project.addTodo(new Todo(
         data.title, 
         data.description, 
         data.dueDate, 
         data.priority
     ));
+    showTodoList(project);
 }
 
-function updateTask(newTodo, data) {
+function handleGetTodo(project, id) {
+    return project.getTodo(id);
+}
+
+function handleUpdateTodo(newTodo, project, data) {
     newTodo.updateTodo(data);
+    showTodoList(project);
 }
 
-function removeTask(project, id) {
+function handleDeleteTodo(project, id) {
     project.removeTodo(id);
+    showTodoList(project);
 }
 
 export {
-    toggleCompletionStatus,
-    toggleRevealDetails,
-    getTask,
-    createTask, 
-    updateTask, 
-    removeTask 
+    handleToggleCompletion, 
+    handleToggleRevealDetails, 
+    handleCreateTodo, 
+    handleGetTodo, 
+    handleUpdateTodo, 
+    handleDeleteTodo
 }
