@@ -17,7 +17,10 @@ import {
     handleDeleteTodo
 } from "./controllers/todo-controller.js";
 
-// Subtask Controller
+// SubTask Controller
+import {
+    handleCreateSubTask
+} from "./controllers/subtask-controller.js";
 
 // Form Controller
 import {
@@ -72,6 +75,12 @@ function handleTodoOptions(e) {
     if (action === "expand-details") {
         const todo = handleGetTodo(selectedProject, id);
         if (todo) handleToggleRevealDetails(todo);
+    }
+
+    // Create subtask of todo
+    if (action === "create-subtask") {
+        const todo = handleGetTodo(selectedProject, id);
+        if (todo) handleCreateSubTask(todo);
     }
 }
 

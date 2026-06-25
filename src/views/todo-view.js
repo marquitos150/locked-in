@@ -13,7 +13,7 @@ function showTodoItem(todo) {
     const todoOptions = document.createElement("div");
     todoOptions.classList.add("todo-options");
 
-    // checkBox
+    // checkBubble
     const checkMark = document.createElement("div");
     checkMark.classList.add("checkmark");
     checkMark.textContent = "b";
@@ -91,8 +91,8 @@ function showTodoItem(todo) {
 
     const todoDetailsSectionWrapper = document.createElement("div");
     todoDetailsSectionWrapper.classList.add("todo-details-section-wrapper");
-    const todoSubtaskListSection = document.createElement("div");
-    todoSubtaskListSection.classList.add("todo-subtask-list");
+    const todoSubTaskListSection = document.createElement("div");
+    todoSubTaskListSection.classList.add("todo-subtask-list");
 
     const todoDetailsSection1 = document.createElement("div");
     todoDetailsSection1.classList.add("todo-details-section");
@@ -127,17 +127,18 @@ function showTodoItem(todo) {
     todoDetailsSection3.appendChild(notesContainer);
     todoDetailsSectionWrapper.appendChild(todoDetailsSection3);
 
-    const subtaskList = document.createElement("ul");
-    subtaskList.classList.add("subtask-list");
-    const subtaskBtn = document.createElement("button");
-    subtaskBtn.dataset.id = todo.id;
-    subtaskBtn.classList.add("subtask-btn");
-    subtaskBtn.textContent = "+ Add Subtask";
-    todoSubtaskListSection.appendChild(subtaskList);
-    todoSubtaskListSection.appendChild(subtaskBtn);
+    const subTaskList = document.createElement("ul");
+    subTaskList.classList.add("subtasks");
+    const subTaskBtn = document.createElement("button");
+    subTaskBtn.dataset.action = "create-subtask";
+    subTaskBtn.dataset.id = todo.id;
+    subTaskBtn.classList.add("subtask-btn");
+    subTaskBtn.textContent = "+ Add Subtask";
+    todoSubTaskListSection.appendChild(subTaskList);
+    todoSubTaskListSection.appendChild(subTaskBtn);
 
     todoDetailsBody.appendChild(todoDetailsSectionWrapper);
-    todoDetailsBody.appendChild(todoSubtaskListSection);
+    todoDetailsBody.appendChild(todoSubTaskListSection);
 
     todoDetailsWrapper.appendChild(todoDetailsHeader);
     todoDetailsWrapper.appendChild(todoDetailsBody);

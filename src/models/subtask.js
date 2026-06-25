@@ -1,9 +1,11 @@
 export class SubTask {
-    constructor(task) {
+    constructor(title) {
         this.id = crypto.randomUUID();
-        this.task = task;
+        this.title = title;
         this.isComplete = false;
     }
 
     toggleCompletion() { this.isComplete = !this.isComplete; }
+
+    updateSubTask(title) { this.title = title; }
 }
