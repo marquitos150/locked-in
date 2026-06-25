@@ -13,7 +13,10 @@ export class Todo {
     
     toggleCompletion() { this.isComplete = !this.isComplete; }
     toggleReveal() { this.revealDetails = !this.revealDetails; }
+
     updateTodo(data) { Object.assign(this, data); }
+    updateTodoNotes(notes) { this.notes = notes; }
+    
     addSubTask(subtask) { this.checkList.push(subtask); }
     removeSubTask(subtask) { this.checkList = this.checkList.filter(task => task.id !== subtask.id); }
 }

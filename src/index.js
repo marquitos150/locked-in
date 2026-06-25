@@ -11,9 +11,10 @@ import {
     handleToggleCompletion, 
     handleToggleRevealDetails, 
     handleCreateTodo, 
-    handleGetTodo,
-    handleDeleteTodo, 
-    handleUpdateTodo
+    handleGetTodo, 
+    handleUpdateTodo, 
+    handleUpdateTodoNotes,
+    handleDeleteTodo
 } from "./controllers/todo-controller.js";
 
 // Subtask Controller
@@ -93,6 +94,18 @@ todoForm.addEventListener('submit', (e) => {
 
     e.target.reset();
     todoForm.close();
+});
+
+// Handles changes to the editable fields of todo notes
+todoList.addEventListener('input', (e) => {
+    const notes = e.target;
+    if (!notes) return;
+
+    const id = notes.dataset.id;
+    const notesTextContent = notes.textContent;
+
+    const todo = handleGetTodo(selectedProject, id);
+    if (todo) handleUpdateTodoNotes(todo, notesTextContent);
 });
 
 // Handles options user may click on for the todo items

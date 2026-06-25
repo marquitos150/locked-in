@@ -37,6 +37,10 @@ function handleUpdateTodo(newTodo, project, data) {
     showTodoList(project);
 }
 
+function handleUpdateTodoNotes(todo, notes) {
+    todo.updateTodoNotes(notes);
+}
+
 function handleDeleteTodo(project, id) {
     project.removeTodo(id);
     showTodoList(project);
@@ -48,5 +52,6 @@ export {
     handleCreateTodo, 
     handleGetTodo, 
     handleUpdateTodo, 
+    handleUpdateTodoNotes,
     handleDeleteTodo
 }
