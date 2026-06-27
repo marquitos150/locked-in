@@ -21,8 +21,14 @@ function handleGetSubTask(todo, id) {
     return todo.getSubTask(id);
 }
 
+function handleDeleteSubTask(todo, id) {
+    todo.removeSubTask(id);
+    showSubTaskList(todo);
+}
+
 export {
     handleToggleSubTaskCompletion,
     handleCreateSubTask,
-    handleGetSubTask
+    handleGetSubTask,
+    handleDeleteSubTask
 }

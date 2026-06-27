@@ -21,7 +21,8 @@ import {
 import {
     handleToggleSubTaskCompletion,
     handleCreateSubTask,
-    handleGetSubTask
+    handleGetSubTask,
+    handleDeleteSubTask
 } from "./controllers/subtask-controller.js";
 
 // Form Controller
@@ -81,11 +82,17 @@ function handleTodoOptions(todoId, action) {
 }
 
 function handleSubTaskOptions(subTaskId, todoId, action) {
+    const todo = handleGetTodo(selectedProject, todoId)
+
     // Toggle completion status of subtask
     if (action === "toggle-subtask-completion") {
-        const todo = handleGetTodo(selectedProject, todoId)
         const subTask = handleGetSubTask(todo, subTaskId);
         if (subTask) handleToggleSubTaskCompletion(subTask);
+    }
+
+    // Remove subtask
+    if (action === "remove-subtask") {
+        handleDeleteSubTask(todo, subTaskId);
     }
 }
 
