@@ -2,10 +2,9 @@
 function showTodoItem(todo) {
     const todoWrapper = document.createElement("li");
     todoWrapper.classList.add("todo-wrapper");
-    todoWrapper.dataset.id = todo.id;
+    todoWrapper.dataset.todoid = todo.id;
     const checkBubble = document.createElement("button");
-    checkBubble.dataset.action = "toggle-completion-status";
-    checkBubble.dataset.id = todo.id;
+    checkBubble.dataset.action = "toggle-todo-completion";
     checkBubble.classList.add("check-bubble");
     if (todo.isComplete) checkBubble.classList.add("completed");
     const todoCard = document.createElement("div");
@@ -61,7 +60,6 @@ function showTodoItem(todo) {
 
     const accordian = document.createElement("button");
     accordian.dataset.action = "expand-details";
-    accordian.dataset.id = todo.id;
     accordian.classList.add("accordian");
     const accordianImage = document.createElement("div");
     accordianImage.classList.add("arrow");
@@ -119,7 +117,6 @@ function showTodoItem(todo) {
     const notesDetails = document.createElement("h3");
     notesDetails.textContent = "Notes:";
     const notesContainer = document.createElement("div");
-    notesContainer.dataset.id = todo.id;
     notesContainer.setAttribute("contenteditable", "true");
     notesContainer.classList.add("notes-container");
     notesContainer.textContent = todo.notes;
@@ -131,7 +128,6 @@ function showTodoItem(todo) {
     subTaskList.classList.add("subtasks");
     const subTaskBtn = document.createElement("button");
     subTaskBtn.dataset.action = "create-subtask";
-    subTaskBtn.dataset.id = todo.id;
     subTaskBtn.classList.add("subtask-btn");
     subTaskBtn.textContent = "+ Add Subtask";
     todoSubTaskListSection.appendChild(subTaskList);
@@ -149,7 +145,6 @@ function showTodoItem(todo) {
     // todoOptions
     const editBtn = document.createElement("button");
     editBtn.dataset.action = "edit-todo";
-    editBtn.dataset.id = todo.id;
     editBtn.classList.add("edit");
     const editIcon = document.createElement("div");
     editIcon.classList.add("edit-icon");
@@ -158,7 +153,6 @@ function showTodoItem(todo) {
 
     const trashBtn = document.createElement("button");
     trashBtn.dataset.action = "remove-todo";
-    trashBtn.dataset.id = todo.id;
     trashBtn.classList.add("delete");
     const trashIcon = document.createElement("div");
     trashIcon.classList.add("trash");
@@ -176,14 +170,14 @@ function showTodoItem(todo) {
 
 // Function that toggles check bubble
 function toggleCheckBubble(todo) {
-    const todoElement = document.querySelector(`[data-id="${todo.id}"]`);
+    const todoElement = document.querySelector(`[data-todoid="${todo.id}"]`);
     const checkBubble = todoElement.querySelector(".check-bubble");
     checkBubble.classList.toggle("completed", todo.isComplete);
 }
 
 // Function that toggles the details of the todo item
 function toggleRevealDetails(todo) {
-    const todoElement = document.querySelector(`[data-id="${todo.id}"]`);
+    const todoElement = document.querySelector(`[data-todoid="${todo.id}"]`);
     const todoDetails = todoElement.querySelector(".todo-details");
     todoDetails.classList.toggle("open", todo.revealDetails);
 }

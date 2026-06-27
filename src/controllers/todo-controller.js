@@ -8,7 +8,7 @@ import {
     showTodoList 
 } from "../views/todo-view.js";
 
-function handleToggleCompletion(todo) {
+function handleToggleTodoCompletion(todo) {
     todo.toggleCompletion();
     toggleCheckBubble(todo);
 }
@@ -47,7 +47,7 @@ function handleDeleteTodo(project, id) {
 }
 
 export {
-    handleToggleCompletion, 
+    handleToggleTodoCompletion, 
     handleToggleRevealDetails, 
     handleCreateTodo, 
     handleGetTodo, 

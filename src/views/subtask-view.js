@@ -2,15 +2,16 @@
 function showSubTaskItem(subtask) {
     const subTaskWrapper = document.createElement("li");
     subTaskWrapper.classList.add("subtask-wrapper");
-    subTaskWrapper.dataset.id = subtask.id;
+    subTaskWrapper.dataset.subtaskid = subtask.id;
+    subTaskWrapper.dataset.type = "subtask";
     const checkBubble = document.createElement("button");
-    checkBubble.dataset.action = "toggle-completion-status-subtask";
-    checkBubble.dataset.id = subtask.id;
+    checkBubble.dataset.action = "toggle-subtask-completion";
     checkBubble.classList.add("check-bubble");
     if (subtask.isComplete) checkBubble.classList.add("completed");
     const subTaskContainer = document.createElement("div");
     subTaskContainer.classList.add("subtask-container");
     const subTaskDeleteBtn = document.createElement("button");
+    subTaskDeleteBtn.dataset.action = "remove-subtask";
     subTaskDeleteBtn.classList.add("subtask-delete-btn");
 
     // checkBubble
@@ -21,13 +22,12 @@ function showSubTaskItem(subtask) {
 
     // subTaskContainer
     const subTaskBtn = document.createElement("button");
-    subTaskBtn.dataset.field = "title";
+    subTaskBtn.dataset.action = "edit-subtask";
     subTaskBtn.classList.add("subtask-btn");
     subTaskBtn.textContent = subtask.title;
     subTaskContainer.appendChild(subTaskBtn);
 
     const subTaskInput = document.createElement("input");
-    subTaskInput.dataset.field = "title";
     subTaskInput.classList.add("subtask-input");
     subTaskInput.setAttribute("value", subtask.title);
     subTaskInput.setAttribute("hidden", "");
@@ -45,6 +45,13 @@ function showSubTaskItem(subtask) {
     return subTaskWrapper;
 }
 
+// Function that toggles check bubble
+function toggleCheckBubble(subtask) {
+    const subTaskElement = document.querySelector(`[data-subtaskid="${subtask.id}"]`);
+    const checkBubble = subTaskElement.querySelector(".check-bubble");
+    checkBubble.classList.toggle("completed", subtask.isComplete);
+}
+
 // Function that renders the subtask list for the todo
 function showSubTaskList(todo) {
     const subTasks = document.querySelector(".subtasks");
@@ -60,5 +67,6 @@ function showSubTaskList(todo) {
 }
 
 export {
+    toggleCheckBubble,
     showSubTaskList
 }
