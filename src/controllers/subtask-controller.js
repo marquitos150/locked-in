@@ -4,7 +4,8 @@ import { SubTask } from "../models/subtask.js";
 // Subtask View
 import { 
     toggleCheckBubble,
-    showSubTaskList 
+    appendSubTaskUI,
+    removeSubTaskUI 
 } from "../views/subtask-view.js";
 
 function handleToggleSubTaskCompletion(subtask) {
@@ -13,22 +14,28 @@ function handleToggleSubTaskCompletion(subtask) {
 }
 
 function handleCreateSubTask(todo) {
-    todo.addSubTask(new SubTask("")); // initially empty
-    showSubTaskList(todo);
+    const subtask = new SubTask("");
+    todo.addSubTask(subtask); // initially empty
+    appendSubTaskUI(todo, subtask);
 }
 
 function handleGetSubTask(todo, id) {
     return todo.getSubTask(id);
 }
 
-function handleDeleteSubTask(todo, id) {
-    todo.removeSubTask(id);
-    showSubTaskList(todo);
+function handleUpdateSubTask(todo, subtask, title) {
+    subtask.updateSubTask(title);
+}
+
+function handleDeleteSubTask(todo, subtask) {
+    todo.removeSubTask(subtask);
+    removeSubTaskUI(subtask);
 }
 
 export {
     handleToggleSubTaskCompletion,
     handleCreateSubTask,
     handleGetSubTask,
+    handleUpdateSubTask,
     handleDeleteSubTask
 }

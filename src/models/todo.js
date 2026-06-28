@@ -17,7 +17,7 @@ export class Todo {
     updateTodo(data) { Object.assign(this, data); }
     updateTodoNotes(notes) { this.notes = notes; }
     
-    getSubTask(id) { return this.checkList.find(subtask => subtask.id === id); }
+    getSubTask(id) { return this.checkList.find(s => s.id === id); }
     addSubTask(subtask) { this.checkList.push(subtask); }
-    removeSubTask(id) { this.checkList = this.checkList.filter(subtask => subtask.id !== id); }
+    removeSubTask(subtask) { this.checkList = this.checkList.filter(s => s.id !== subtask.id); }
 }

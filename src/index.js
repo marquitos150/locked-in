@@ -22,6 +22,7 @@ import {
     handleToggleSubTaskCompletion,
     handleCreateSubTask,
     handleGetSubTask,
+    handleUpdateSubTask,
     handleDeleteSubTask
 } from "./controllers/subtask-controller.js";
 
@@ -49,51 +50,114 @@ const todoList = document.querySelector(".todo-list");
 const todoForm = document.querySelector("#popup-form");
 
 function handleTodoOptions(todoId, action) {
-    // Toggle completion status of todo
-    if (action === "toggle-todo-completion") {
-        const todo = handleGetTodo(selectedProject, todoId);
-        if (todo) handleToggleTodoCompletion(todo);
-    }
+    const todo = handleGetTodo(selectedProject, todoId);
+    if (!todo) return;
 
-    // Edit todo (Shows form in edit mode, fields should contain todo data)
-    if (action === "edit-todo") {
-        const todo = handleGetTodo(selectedProject, todoId);
-        if (todo) handleUpdateForm(todo);
-        todoToEdit = todo;
-        todoForm.showModal();
-    }
-
-    // Remove todo
-    if (action === "remove-todo") {
-        handleDeleteTodo(selectedProject, todoId);
-    }
-
-    // Expand todo to see details
-    if (action === "expand-details") {
-        const todo = handleGetTodo(selectedProject, todoId);
-        if (todo) handleToggleRevealDetails(todo);
-    }
-
-    // Create subtask of todo
-    if (action === "create-subtask") {
-        const todo = handleGetTodo(selectedProject, todoId);
-        if (todo) handleCreateSubTask(todo);
+    switch (action) {
+        // Toggle completion status of todo
+        case "toggle-todo-completion":
+            handleToggleTodoCompletion(todo);
+            break;
+        
+        // Edit todo (Shows form in edit mode, fields should contain todo data)
+        case "edit-todo":
+            handleUpdateForm(todo);
+            todoToEdit = todo;
+            todoForm.showModal();
+            break;
+        
+        // Remove todo
+        case "remove-todo":
+            handleDeleteTodo(selectedProject, todo);
+            break;
+        
+        // Expand todo to see details
+        case "expand-details":
+            handleToggleRevealDetails(todo);
+            break;
+        
+        // Create subtask of todo
+        case "create-subtask":
+            handleCreateSubTask(todo);
+            break;
     }
 }
 
 function handleSubTaskOptions(subTaskId, todoId, action) {
-    const todo = handleGetTodo(selectedProject, todoId)
+    const todo = handleGetTodo(selectedProject, todoId);
+    if (!todo) return;
 
-    // Toggle completion status of subtask
-    if (action === "toggle-subtask-completion") {
-        const subTask = handleGetSubTask(todo, subTaskId);
-        if (subTask) handleToggleSubTaskCompletion(subTask);
-    }
+    const subTask = handleGetSubTask(todo, subTaskId);
+    if (!subTask) return;
 
-    // Remove subtask
-    if (action === "remove-subtask") {
-        handleDeleteSubTask(todo, subTaskId);
+    switch (action) {
+        // Toggle completion status of subtask
+        case "toggle-subtask-completion":
+            handleToggleSubTaskCompletion(subTask);
+            break;
+        
+        // Remove subtask
+        case "remove-subtask":
+            handleDeleteSubTask(todo, subTask);
+            break;
     }
+}
+
+function handleTodoListClick(e) {
+    const option = e.target.closest('[data-action]');
+    if (!option) return;
+
+    const todoItem = e.target.closest('[data-todoid]');
+    if (!todoItem) return;
+
+    const subTaskItem = e.target.closest('[data-subtaskid]');
+
+    const action = option.dataset.action;
+    const todoId = todoItem.dataset.todoid;
+
+    if (subTaskItem) {
+        const subTaskId = subTaskItem.dataset.subtaskid;
+        handleSubTaskOptions(subTaskId, todoId, action);
+    } else {
+        handleTodoOptions(todoId, action);
+    }
+}
+
+function handleTodoListInput(e) {
+    // Handles input changes from notes section of todo
+    const notes = e.target.closest('.notes-container');
+    if (!notes) return;
+
+    const todoItem = e.target.closest('[data-todoid]');
+    if (!todoItem) return;
+
+    const todoId = todoItem.dataset.todoid;
+    const todo = handleGetTodo(selectedProject, todoId);
+    if (!todo) return;
+
+    const notesTextContent = notes.textContent;
+    handleUpdateTodoNotes(todo, notesTextContent);
+}
+
+function handleTodoListFocusOut(e) {
+    // Handles updating subtask fields after focusing out
+    const subTaskField = e.target.closest('.subtask-input');
+    if (!subTaskField) return;
+
+    const todoItem = e.target.closest('[data-todoid]');
+    if (!todoItem) return;
+    const subTaskItem = e.target.closest('[data-subtaskid]');
+    if (!subTaskItem) return;
+
+    const todoId = todoItem.dataset.todoid;
+    const subTaskId = subTaskItem.dataset.subtaskid;
+    const todo = handleGetTodo(selectedProject, todoId);
+    if (!todo) return;
+    const subTask = handleGetSubTask(todo, subTaskId);
+    if (!subTask) return;
+
+    const newSubTaskTitle = subTaskField.value;
+    handleUpdateSubTask(todo, subTask, newSubTaskTitle);
 }
 
 // Shows form in create mode (fields should be blank)
@@ -117,36 +181,6 @@ todoForm.addEventListener('submit', (e) => {
     todoForm.close();
 });
 
-// Handles changes to the editable fields of todo notes
-todoList.addEventListener('input', (e) => {
-    const notes = e.target;
-    const todoDOM = e.target.closest('[data-todoid]');
-    if (!notes || !todoDOM) return;
-
-    const id = todoDOM.dataset.todoid;
-    const notesTextContent = notes.textContent;
-
-    const todo = handleGetTodo(selectedProject, id);
-    if (todo) handleUpdateTodoNotes(todo, notesTextContent);
-});
-
-// Handles options user may click on for todo/subtask items
-todoList.addEventListener('click', (e) => {
-    const todoItem = e.target.closest('[data-todoid]');
-    const subTaskItem = e.target.closest('[data-subtaskid]');
-    const option = e.target.closest('[data-action]');
-    console.log(todoItem);
-    console.log(subTaskItem);
-
-    if (!todoItem || !option) return;
-
-    const action = option.dataset.action;
-    const todoId = todoItem.dataset.todoid;
-
-    if (!subTaskItem) {
-        handleTodoOptions(todoId, action);
-    } else {
-        const subTaskId = subTaskItem.dataset.subtaskid;
-        handleSubTaskOptions(subTaskId, todoId, action);
-    }
-});
+todoList.addEventListener('click', handleTodoListClick);
+todoList.addEventListener('input', handleTodoListInput);
+todoList.addEventListener('focusout', handleTodoListFocusOut);

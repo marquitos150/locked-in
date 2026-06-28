@@ -5,7 +5,10 @@ import { Todo } from "../models/todo.js";
 import { 
     toggleCheckBubble, 
     toggleRevealDetails, 
-    showTodoList 
+    showTodoListUI,
+    appendTodoUI,
+    updateTodoUI,
+    removeTodoUI
 } from "../views/todo-view.js";
 
 function handleToggleTodoCompletion(todo) {
@@ -19,13 +22,14 @@ function handleToggleRevealDetails(todo) {
 }
 
 function handleCreateTodo(project, data) {
-    project.addTodo(new Todo(
+    const todo = new Todo(
         data.title, 
         data.description, 
         data.dueDate, 
         data.priority
-    ));
-    showTodoList(project);
+    );
+    project.addTodo(todo);
+    appendTodoUI(todo);
 }
 
 function handleGetTodo(project, id) {
@@ -34,16 +38,16 @@ function handleGetTodo(project, id) {
 
 function handleUpdateTodo(newTodo, project, data) {
     newTodo.updateTodo(data);
-    showTodoList(project);
+    updateTodoUI(newTodo);
 }
 
 function handleUpdateTodoNotes(todo, notes) {
     todo.updateTodoNotes(notes);
 }
 
-function handleDeleteTodo(project, id) {
-    project.removeTodo(id);
-    showTodoList(project);
+function handleDeleteTodo(project, todo) {
+    project.removeTodo(todo);
+    removeTodoUI(todo);
 }
 
 export {

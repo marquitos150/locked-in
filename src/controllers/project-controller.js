@@ -5,7 +5,7 @@ import { Project } from "../models/project.js";
 
 // Todo View
 import {
-    showTodoList
+    showTodoListUI
 } from "../views/todo-view.js";
 
 function handleCreateProject(projects, title, selectedProject) {
@@ -13,7 +13,7 @@ function handleCreateProject(projects, title, selectedProject) {
     projects.push(project);
 
     // show the project upon creation
-    showTodoList(project);
+    showTodoListUI(project);
     return project;
 }
 
