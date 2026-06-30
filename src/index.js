@@ -3,7 +3,9 @@ import "./styles.css";
 
 // Project Controller
 import {
-    handleCreateProject
+    handleCreateInbox,
+    handleCreateProject,
+    handleUpdateProject
 } from "./controllers/project-controller.js";
 
 // Todo Controller
@@ -39,10 +41,11 @@ let todoToEdit = null;
 let selectedProject = null;
 
 // Inbox will be the 'default' selected project, cannot be deleted
-const inbox = handleCreateProject(projectList, "Inbox");
+const inbox = handleCreateInbox(projectList);
 selectedProject = inbox;
 
 // DOM
+const inboxBtn = document.querySelector(".inbox-btn");
 const createProjectBtn = document.querySelector(".project-btn");
 const createTodoBtn = document.querySelector(".todo-btn");
 const sortingTodosBtn = document.querySelector(".sorting-btn");
@@ -160,10 +163,20 @@ function handleTodoListFocusOut(e) {
     handleUpdateSubTask(todo, subTask, newSubTaskTitle);
 }
 
+inboxBtn.addEventListener('click', () => {
+    selectedProject = inbox;
+    handleUpdateProject(selectedProject);
+});
+
 // Shows form in create mode (fields should be blank)
 createTodoBtn.addEventListener('click', () => {
     handleCreateForm();
     todoForm.showModal();
+});
+
+// Creates a project item
+createProjectBtn.addEventListener('click', () => {
+    selectedProject = handleCreateProject(projectList);
 });
 
 // Creates a new todo item or edits it from the todo list after submitting todo form

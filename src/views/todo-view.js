@@ -36,12 +36,14 @@ export function showTodoListUI(project) {
     });
 }
 
+// Function that appends todo to the todo list
 export function appendTodoUI(todo) {
     const todos = document.querySelector(".todos");
     const todoElement = buildTodoItem(todo);
     todos.appendChild(todoElement);
 }
 
+// Function that updates todo from the todo list
 export function updateTodoUI(todo) {
     const todoElement = document.querySelector(`[data-todoid="${todo.id}"]`);
     todoElement.querySelector(`[data-field="title"]`).textContent = todo.title;
@@ -52,6 +54,7 @@ export function updateTodoUI(todo) {
     todoElement.querySelector(`[data-field="priority-details"]`).textContent = todo.priority;
 }
 
+// Function that removes todo from the todo list
 export function removeTodoUI(todo) {
     const todoElement = document.querySelector(`[data-todoid="${todo.id}"]`);
     todoElement.remove();
@@ -65,7 +68,7 @@ function buildTodoItem(todo) {
 
     todoWrapper.appendChild(buildCheckBubble(todo));
     todoWrapper.appendChild(buildTodoCard(todo));
-    todoWrapper.appendChild(buildTodoOptions(todo));
+    todoWrapper.appendChild(buildTodoOptions());
     return todoWrapper;
 }
 
@@ -230,7 +233,7 @@ function buildSubTaskListSection(todo) {
     return todoSubTaskListSection;
 }
 
-function buildTodoOptions(todo) {
+function buildTodoOptions() {
     const todoOptions = document.createElement("div");
     todoOptions.classList.add("todo-options");
 
