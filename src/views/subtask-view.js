@@ -5,22 +5,6 @@ export function toggleCheckBubble(subtask) {
     checkBubble.classList.toggle("completed", subtask.isComplete);
 }
 
-// Function that builds the subtask list UI
-export function buildSubTaskListUI(todo) {
-    const subTaskList = document.createElement("ul");
-    subTaskList.classList.add("subtasks");
-
-    // Clear subtasks before rendering subtask list
-    subTaskList.innerHTML = "";
-
-    // Display subtasks for todo
-    todo.checkList.forEach((subTaskItem) => {
-        const subTask = buildSubTaskItem(subTaskItem);
-        subTaskList.appendChild(subTask);
-    });
-    return subTaskList;
-}
-
 // Function that adds a new subtask to the subtask list UI
 export function appendSubTaskUI(todo, subtask) {
     const todoElement = document.querySelector(`[data-todoid="${todo.id}"]`);
@@ -35,8 +19,8 @@ export function removeSubTaskUI(subtask) {
     subTaskToRemove.remove();
 }
 
-// Helper functions
-function buildSubTaskItem(subtask) {
+// Function that builds the sub task item
+export function buildSubTaskItem(subtask) {
     const subTaskWrapper = document.createElement("li");
     subTaskWrapper.classList.add("subtask-wrapper");
     subTaskWrapper.dataset.subtaskid = subtask.id;
@@ -47,6 +31,7 @@ function buildSubTaskItem(subtask) {
     return subTaskWrapper;
 }
 
+// Helper functions
 function buildCheckBubble(subtask) {
     const checkBubble = document.createElement("button");
     checkBubble.dataset.action = "toggle-subtask-completion";

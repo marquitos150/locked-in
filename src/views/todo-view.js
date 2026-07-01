@@ -1,6 +1,6 @@
 // SubTask View
 import {
-    buildSubTaskListUI
+    buildSubTaskItem
 } from "./subtask-view.js";
 
 // Function that toggles check bubble
@@ -15,25 +15,6 @@ export function toggleRevealDetails(todo) {
     const todoElement = document.querySelector(`[data-todoid="${todo.id}"]`);
     const todoDetails = todoElement.querySelector(".todo-details");
     todoDetails.classList.toggle("open", todo.revealDetails);
-}
-
-// Function that renders the todo list for the selected project
-export function showTodoListUI(project) {
-    const projectName = document.querySelector(".project-name");
-    const todos = document.querySelector(".todos");
-
-    // Clear project name and todos before rendering todo list
-    projectName.innerHTML = "";
-    todos.innerHTML = "";
-
-    // Display project name
-    projectName.textContent = project.title;
-
-    // Display todos for project
-    project.todoList.forEach((todoItem) => {
-        const todo = buildTodoItem(todoItem);
-        todos.appendChild(todo);
-    });
 }
 
 // Function that appends todo to the todo list
@@ -61,6 +42,16 @@ export function removeTodoUI(todo) {
 }
 
 // Helper functions
+function buildSubTaskList(todo) {
+    const subTasks = document.createElement("ul");
+    subTasks.classList.add("subtasks");
+
+    todo.checkList.forEach((subTaskItem) => {
+        subTasks.appendChild(buildSubTaskItem(subTaskItem));
+    });
+    return subTasks;
+}
+
 function buildTodoItem(todo) {
     const todoWrapper = document.createElement("li");
     todoWrapper.classList.add("todo-wrapper");
@@ -220,16 +211,14 @@ function buildDetailsSection(todo) {
 function buildSubTaskListSection(todo) {
     const todoSubTaskListSection = document.createElement("div");
     todoSubTaskListSection.classList.add("todo-subtask-list");
-
-    const subTaskList = buildSubTaskListUI(todo); // from subtask-view
+    todoSubTaskListSection.appendChild(buildSubTaskList(todo));
 
     const subTaskBtn = document.createElement("button");
     subTaskBtn.dataset.action = "create-subtask";
     subTaskBtn.classList.add("subtask-btn");
     subTaskBtn.textContent = "+ Add Subtask";
-
-    todoSubTaskListSection.appendChild(subTaskList);
     todoSubTaskListSection.appendChild(subTaskBtn);
+
     return todoSubTaskListSection;
 }
 

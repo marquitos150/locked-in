@@ -1,7 +1,13 @@
+// Todo View
+import {
+    appendTodoUI
+} from "./todo-view.js";
+
 export function toggleHiddenElement() {
 
 }
 
+// Function that selects project input field
 export function selectInput(project) {
     const projectElement = document.querySelector(`[data-projectid="${project.id}"]`);
     const projectInput = projectElement.querySelector(".project-input");
@@ -17,12 +23,26 @@ export function appendProjectUI(project) {
 
 // Function that updates project name from the project list
 export function updateProjectUI(project) {
-    
+    const projectElement = document.querySelector(".project-name");
+    projectElement.textContent = project.title;
 }
 
 // Function that removes project from the project list
 export function removeProjectUI(project) {
 
+}
+
+// Function that displays the todo list UI for selected project
+export function showTodoListUI(project) {
+    project.todoList.forEach((todoItem) => {
+        appendTodoUI(todoItem);
+    });
+}
+
+// Function that clears the todo list UI before rerendering
+export function clearTodoListUI() {
+    const todos = document.querySelector(".todos");
+    todos.innerHTML = "";
 }
 
 // Helper functions
@@ -51,7 +71,7 @@ function buildProjectField(project) {
     projectInput.classList.add("project-input");
     projectInput.setAttribute("type", "text");
     projectInput.setAttribute("value", project.title);
-    projectInput.setAttribute("placeholder", "Name project (Press Enter to create it)");
+    projectInput.setAttribute("placeholder", "Enter Project Name");
 
     projectField.appendChild(projectBtn);
     projectField.appendChild(projectInput);

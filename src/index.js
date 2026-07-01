@@ -5,7 +5,8 @@ import "./styles.css";
 import {
     handleCreateInbox,
     handleCreateProject,
-    handleUpdateProject
+    handleUpdateProjectName,
+    handleSwitchProject
 } from "./controllers/project-controller.js";
 
 // Todo Controller
@@ -36,12 +37,12 @@ import {
 } from "./controllers/form-controller.js";
 
 // States
-const projectList = [];
+const projects = [];
 let todoToEdit = null;
 let selectedProject = null;
 
 // Inbox will be the 'default' selected project, cannot be deleted
-const inbox = handleCreateInbox(projectList);
+const inbox = handleCreateInbox(projects);
 selectedProject = inbox;
 
 // DOM
@@ -51,6 +52,7 @@ const createTodoBtn = document.querySelector(".todo-btn");
 const sortingTodosBtn = document.querySelector(".sorting-btn");
 const todoList = document.querySelector(".todo-list");
 const todoForm = document.querySelector("#popup-form");
+const projectList = document.querySelector(".project-list");
 
 function handleTodoOptions(todoId, action) {
     const todo = handleGetTodo(selectedProject, todoId);
@@ -163,9 +165,34 @@ function handleTodoListFocusOut(e) {
     handleUpdateSubTask(todo, subTask, newSubTaskTitle);
 }
 
+function handleProjectListClick(e) {
+
+}
+
+function handleProjectListFocusOut(e) {
+    // Handles updating subtask fields after focusing out
+    const projectField = e.target.closest('.project-input');
+    if (!projectField) return;
+
+    const todoItem = e.target.closest('[data-todoid]');
+    if (!todoItem) return;
+    const subTaskItem = e.target.closest('[data-subtaskid]');
+    if (!subTaskItem) return;
+
+    const todoId = todoItem.dataset.todoid;
+    const subTaskId = subTaskItem.dataset.subtaskid;
+    const todo = handleGetTodo(selectedProject, todoId);
+    if (!todo) return;
+    const subTask = handleGetSubTask(todo, subTaskId);
+    if (!subTask) return;
+
+    const newSubTaskTitle = subTaskField.value;
+    handleUpdateSubTask(todo, subTask, newSubTaskTitle);
+}
+
 inboxBtn.addEventListener('click', () => {
     selectedProject = inbox;
-    handleUpdateProject(selectedProject);
+    handleSwitchProject(selectedProject);
 });
 
 // Shows form in create mode (fields should be blank)
@@ -176,7 +203,7 @@ createTodoBtn.addEventListener('click', () => {
 
 // Creates a project item
 createProjectBtn.addEventListener('click', () => {
-    selectedProject = handleCreateProject(projectList);
+    selectedProject = handleCreateProject(projects);
 });
 
 // Creates a new todo item or edits it from the todo list after submitting todo form
@@ -197,3 +224,6 @@ todoForm.addEventListener('submit', (e) => {
 todoList.addEventListener('click', handleTodoListClick);
 todoList.addEventListener('input', handleTodoListInput);
 todoList.addEventListener('focusout', handleTodoListFocusOut);
+
+projectList.addEventListener('click', handleProjectListClick);
+projectList.addEventListener('focusout', handleProjectListFocusOut);

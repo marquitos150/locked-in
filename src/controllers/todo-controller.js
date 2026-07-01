@@ -5,7 +5,6 @@ import { Todo } from "../models/todo.js";
 import { 
     toggleCheckBubble, 
     toggleRevealDetails, 
-    showTodoListUI,
     appendTodoUI,
     updateTodoUI,
     removeTodoUI
